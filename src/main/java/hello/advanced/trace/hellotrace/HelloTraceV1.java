@@ -49,7 +49,7 @@ public class HelloTraceV1 {
                     addSpace(EX_PREFIX, traceId.getLevel()),
                     status.getMessage(),
                     allTime,
-                    e.getClass().getName()
+                    e.toString()
             );
         }
     }
