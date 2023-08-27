@@ -1,6 +1,7 @@
 package hello.advanced.trace.strategy;
 
 import hello.advanced.trace.strategy.code.ContextV1;
+import hello.advanced.trace.strategy.code.Strategy;
 import hello.advanced.trace.strategy.code.StrategyLogic1;
 import hello.advanced.trace.strategy.code.StrategyLogic2;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,55 @@ public class ContextV1Test {
 
         StrategyLogic2 strategyLogic2 = new StrategyLogic2();
         ContextV1 context2 = new ContextV1(strategyLogic2);
+        context2.execute();
+    }
+
+    @Test
+    void strategyV2() {
+        Strategy strategy1 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스 로직1 실행");
+            }
+        };
+        ContextV1 context1 = new ContextV1(strategy1);
+        context1.execute();
+
+        Strategy strategy2 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스 로직2 실행");
+            }
+        };
+        ContextV1 context2 = new ContextV1(strategy2);
+        context2.execute();
+    }
+
+    @Test
+    void strategyV3() {
+        ContextV1 context1 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스 로직1 실행");
+            }
+        });
+        context1.execute();
+
+        ContextV1 context2 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스 로직2 실행");
+            }
+        });
+        context2.execute();
+    }
+
+    @Test
+    void strategyV4() {
+        ContextV1 context1 = new ContextV1(() -> log.info("비즈니스 로직1 실행"));
+        context1.execute();
+
+        ContextV1 context2 = new ContextV1(() -> log.info("비즈니스 로직2 실행"));
         context2.execute();
     }
 }
